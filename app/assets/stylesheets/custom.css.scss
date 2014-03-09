@@ -574,14 +574,19 @@ width:222px;
 background: #fff;
 }
 #autocomplete li {
+  margin-top:0px;
   width:100%;
   list-style:none;
   color:#777;
+  height:35px;
   padding-left:5px;
   font-family: 'Helvetica Neue';
   font-weight:bold;
-  line-height:24px;
+  line-height:30px;
+  vertical-align:middle;
+
 }
+
 #autocomplete li:hover {
   background-color:#E6E6E6;
   cursor: pointer; cursor: hand;
@@ -590,8 +595,21 @@ background: #fff;
 }
 
 #autocomplete a {
+  margin-bottom:-10px;
   text-decoration:none;
   color:#777;
+}
+
+#autocomplete img {
+vertical-align:middle;
+  height:25px;
+  width:25px;
+  margin-left:3px;
+  margin-right:10px;
+   -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;  
+    border-radius: 3px;
 }
 
 .acselected {

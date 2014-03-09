@@ -77,12 +77,14 @@ function instaSearch(query) {
 
 $(document).ready(function() {
     $(".search input").keydown(function(e) {
-        if(e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 13) {
-            if(e.keyCode == 13 && $(".acselected").length != 0) {
+        if(e.keyCode == 9 || e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 13) {
+            if((e.keyCode == 13 || e.keyCode == 9) && $(".acselected").length != 0) {
                 window.location.href = $(".acselected").find("a").attr('href');
             }
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            if(!(e.keyCode == 13 && $(".acselected").length == 0)) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
             if($("#autocomplete").children().length > 0) {
                 if(e.keyCode == 40) {
                     if($(".acselected").length == 0) {
@@ -108,11 +110,6 @@ $(document).ready(function() {
             instaSearch();
         
     });
-
-   
-
-
-
 });
 
 </script>

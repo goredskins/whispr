@@ -35,7 +35,8 @@ class StaticPagesController < ApplicationController
 
   def search
     @query = params.permit(:q)[:q]
-    @results = Group.where("name like ?", "%#{@query}%").limit(10)
+    @groups = Group.where("name like ?", "%#{@query}%").limit(10)
+    @users = User.where("name like ?", "%#{@query}%").limit(10)
     respond_to do |format|
       format.js
       format.html
