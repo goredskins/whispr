@@ -1,0 +1,17 @@
+== README
+
+How to get Whispr running:
+
+* clone the project directory
+
+* cd to the directory "whispr"
+
+* run <tt>bundle install</tt> to install dependencies
+
+* run <tt>rake db:migrate</tt> to set up the database
+
+* run <tt>rake db:populate</tt> if you want to load sample data
+
+* run <tt>rails s -p80</tt> to run the server
+
+And you should be good to go.
