@@ -28,10 +28,18 @@ class StaticPagesController < ApplicationController
 		@clone.save
     end
 
-	respond_to do |format|
-    	format.js
+    respond_to do |format|
+      format.js
     end
+  end
 
+  def search
+    @query = params.permit(:q)[:q]
+    @results = Group.where("name like ?", "%#{@query}%").limit(10)
+    respond_to do |format|
+      format.js
+      format.html
+    end
   end
 
   def help

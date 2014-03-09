@@ -1,0 +1,4 @@
+$("#autocomplete").empty();
+<% @results.each do |group| %>
+	$("#autocomplete").append("<li><%= escape_javascript link_to group.name, group %></li>");
+<% end %>

@@ -10,9 +10,7 @@
             <li>
                 <%= link_to "Home", root_path %>
             </li>
-            <li>
-                <div id="DOSTUFF">Test</div>
-            </li>
+ 
         <!--    <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Navbar Item 2<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -24,6 +22,18 @@
             </li>
         </ul>
         <ul class="nav navbar-nav pull-right">
+        <li>
+        <div class="search">
+            <%= form_tag("/search", method: "get") do %>
+                <%= text_field_tag :q, nil, :autocomplete => "off" %>
+                <%= content_tag :button, :type => :submit, :class => "" do %>
+                    <i class="glyphicon glyphicon-search"></i>
+                <% end %>
+            <% end %>
+            <ul id="autocomplete">
+            </ul>
+        </div>
+        </li>
         <% if signed_in? %>
             <li class="dropdown">
                 <a href="#" id="nbAcctDD" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
@@ -43,3 +53,66 @@
         </ul>
     </nav>
 </div>
+
+<script>
+
+function instaSearch(query) {
+    if($("#q").val() == "") {
+        $("#autocomplete").empty();
+    } else {
+    $.ajax({
+          type: "GET",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          url: "/search",
+          data: { "q": $("#q").val() },
+      success: function(data) {      
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+    });
+    }
+}
+
+$(document).ready(function() {
+    $(".search input").keydown(function(e) {
+        if(e.keyCode == 40 || e.keyCode == 38 || e.keyCode == 13) {
+            if(e.keyCode == 13 && $(".acselected").length != 0) {
+                window.location.href = $(".acselected").find("a").attr('href');
+            }
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if($("#autocomplete").children().length > 0) {
+                if(e.keyCode == 40) {
+                    if($(".acselected").length == 0) {
+                        $("#autocomplete").children().first().addClass("acselected");
+                    } else {
+                        if($("#autocomplete").children().length - $(".acselected").index() > 1) {
+                            $($("#autocomplete").children()[$(".acselected").removeClass("acselected").index()+1]).addClass("acselected");
+                        }
+                    }
+                }
+                if(e.keyCode == 38) {
+                    if($(".acselected").index() == 0) {
+                        $(".acselected").removeClass("acselected");
+                    } else {
+                        $($("#autocomplete").children()[$(".acselected").removeClass("acselected").index()-1]).addClass("acselected");
+                    }
+                }
+            }
+        }
+    });
+    $(".search input").keyup(function(e) {
+         if(e.keyCode != 40 && e.keyCode != 38) 
+            instaSearch();
+        
+    });
+
+   
+
+
+
+});
+
+</script>

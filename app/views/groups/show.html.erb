@@ -49,12 +49,12 @@
 <div class="col-xs-12 col-sm-9">
   <div class="row">
     <div id="contentcol1" class="col-md-6 col-sm-6">
-      <% @group.posts[0,4].each do |post| %>
+      <% @group.posts.first(4).each do |post| %>
           <%= render post %> 
       <% end %>
     </div>
     <div id="contentcol2" class="col-md-6 col-sm-6">
-    <% @group.posts[4,4].each do |post| %>
+    <% @group.posts.drop(4).first(4).each do |post| %>
           <%= render post %> 
       <% end %>
     </div>
@@ -231,7 +231,7 @@ $(document).ready(function() {
     });
 
 
-    setInterval("updates()", 1000);
+    //setInterval("updates()", 1000);
 
     $(".confirmSocial").click(function() {
       $($(this).data('target')).modal('hide');
