@@ -1,0 +1,20 @@
+<% @posts.each do |post| %>
+	var posthtml = '<%= j render post %>';
+	if($("#contentcol1").height() < $("#contentcol2").height()) {
+		$("#contentcol1").append(posthtml);
+	} else {
+		$("#contentcol2").append(posthtml);
+	}
+<% end %>
+
+<% if @posts.count == 8 %>
+setTimeout(function() {
+$(document).scroll(function(e){
+    if (element_in_scroll($(".endmarker"))) {
+            infinite();
+        };
+    });
+
+}, 1000);
+
+<% end %>

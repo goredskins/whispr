@@ -1,0 +1,11 @@
+<div class="comment_well"> 
+  <%= form_for(@comment, :html => {:class => 'form-horizontal'}) do |f| %>
+    <div class="form-group">
+      <%= f.text_area :content, :class => "form-control", placeholder: "Enter your comment here..." %>
+          <%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right" do %>
+      Post
+    <% end %>
+    </div>
+    <%= f.hidden_field :post_id, :value => post.id %>
+  <% end %>
+</div>

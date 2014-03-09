@@ -1,0 +1,18 @@
+<% @comments.each do |comment| %>
+	$('<hr/><div class="comment" style="display:none;"><div><%= image_tag comment.user.avatar(:thumb), :class => "img-circle pull-left" %></div><div><span class="comment_user"><%= comment.user.name %></span><span class="timestamp pull-right"><span class="glyphicon glyphicon-time"></span>1s</span><p><%= comment.content %> </p><div class="clearfix"></div></div></div>').appendTo($("#post-<%= comment.post.id %>").find('.comments')).show();//.slideDown('fast');
+	if($("#post-<%= comment.post.id %>").find(".comments").height() >= 300) {
+		$("#post-<%= comment.post.id %>").find(".comments_wrap").addClass("comments_wrap_overflow");
+	}
+	$("#post-<%= comment.post.id %>").find(".comments").scrollTop(1000000);
+<% end %>
+
+<% @posts.each do |post| %>
+	var posthtml = '<%= j render post %>';
+	if($("#contentcol1").height() < $("#contentcol2").height()) {
+		$("#contentcol1").prepend(posthtml);
+	} else {
+		$("#contentcol2").prepend(posthtml);
+	}
+<% end %>
+
+

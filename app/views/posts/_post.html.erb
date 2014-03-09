@@ -1,0 +1,70 @@
+<div id="post-<%= post.id %>" class="panel panel-default">
+
+	<div class="panel-heading">
+		<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, :class => "pull-right" %>
+		<h4><%= post.user.name %></h4></div>
+	<div class="panel-body">
+	<div class="media center">
+		<% if post.media_type != nil and post.media_type > 0 %>
+			<%= raw post.media %>
+		<% end %>
+	</div>
+	<div class="container"><h4><%= post.content %></h4></div>
+	<% if post.comments.count > 3 %>
+		<div class="comments_wrap-scroll comments_wrap_overflow">
+	<% else %>
+		<div class="comments_wrap">
+	<% end %>
+	<div class="comments">
+	<% post.comments.each do |comment| %>
+		<hr/>
+		<% if signed_in? and comment.user.id == current_user.id %>
+		<div class="comment">
+			<div class="container-liquid pull-left">
+				<span class="timestamp">
+    				<span class="glyphicon glyphicon-time"></span> <%= time_ago_in_words(comment.created_at, :locale => "en") %>
+  				</span>
+  				<div id="comment-<%= comment.id %>">
+					<p><%= comment.content %> </p>
+					<% comment.secondary_content.each do |content| %>
+						<p><%= content %> </p>
+					<% end %>
+				</div>
+			</div>
+		<%= image_tag comment.user.avatar(:thumb), :class => "img-circle pull-right" %>
+			<span class="comment_user pull-right">
+				<%= comment.user.name %>
+  			</span>
+
+			<div class="clearfix"></div>
+		</div>
+		<% else %>
+		<div class="comment">
+		<div>
+		<%= image_tag comment.user.avatar(:thumb), :class => "img-circle pull-left" %>
+		</div>
+		<div>
+			<span class="comment_user">
+			<%= comment.user.name %>
+			</span>
+			<span class="timestamp pull-right">
+    			<span class="glyphicon glyphicon-time"></span> <%= time_ago_in_words(comment.created_at, :locale => "en") %>
+  			</span>
+  			<div id="comment-<%= comment.id %>">
+				<p><%= comment.content %> </p>
+				<% comment.secondary_content.each do |content| %>
+					<p><%= content %> </p>
+				<% end %>
+			</div>
+			<div class="clearfix"></div>
+			</div>
+			</div>
+		<% end %>
+	<% end %>
+	</div>
+	</div>
+	</div>
+	<div class="panel-footer">
+    	<%= render 'posts/comment_box', :post => post %>
+	</div>
+</div>

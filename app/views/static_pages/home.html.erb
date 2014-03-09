@@ -1,0 +1,84 @@
+<p id="notice"><%= notice %></p>
+<% if signed_in? %>
+<div class="row">
+<div class="col-xs-12 col-sm-12">
+  <div class="row">
+    <div id="contentcol1" class="col-md-4 col-sm-4">
+      <% (0).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+    <div id="contentcol2" class="col-md-4 col-sm-4">
+    <% (1).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+    <div id="contentcol3" class="col-md-4 col-sm-4">
+    <% (2).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+
+function test() {
+  $.ajax({
+          type: "GET",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          url: "/since",
+      success: function(data) {      
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+    });
+}
+
+$(document).ready(function() {
+
+	$("#DOSTUFF").click(function() {
+		test();
+	});
+    setInterval("test()", 1000 );
+
+    $(".confirmSocial").click(function() {
+      $($(this).data('target')).modal('hide');
+      var media = $($(this).data('target')).find('.socialPreview').html();
+      if(media != "") {
+        $("#post_media").val(media);
+        $("#post_media_type").val("5")
+      }
+    });
+
+
+});
+</script>
+
+
+<% else %>
+
+<div class="row">
+	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+		<h1 class="page-header">StaticPages#home</h1>
+		<div class="row placeholders">
+			<div class="col-xs-6 col-sm-3 placeholder">
+				<h4>Column 1</h4>
+			</div>
+			<div class="col-xs-6 col-sm-3 placeholder">
+				<h4>Column 2</h4>
+			</div>
+			<div class="col-xs-6 col-sm-3 placeholder">
+				<h4>Column 3</h4>
+			</div>
+			<div class="col-xs-6 col-sm-3 placeholder">
+				<h4>Column 4</h4>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% end %>

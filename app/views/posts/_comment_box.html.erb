@@ -1,0 +1,24 @@
+<div class="comment_well"> 
+  <%= form_for(@comment, :html => {:class => 'form-horizontal'}, remote: true) do |f| %>
+    <div class="form-group">
+
+      <table border="0" class="commenttable">
+        <colgroup>
+          <col />
+          <col style="width:3em;" span="2" />
+        </colgroup>
+        <tbody>
+          <tr>
+            <td><%= f.text_field :content, :autocomplete => "off", placeholder: "Enter your comment here..." %></td>
+            <td><%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right" do %>
+        Post
+      <% end %></td>
+          </tr>
+        </tbody>
+      </table>
+
+
+      </div>
+    <%= f.hidden_field :post_id, :value => post.id %>
+  <% end %>
+</div>

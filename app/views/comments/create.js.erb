@@ -1,0 +1,12 @@
+<% if @new %>
+	$('<hr/><div class="comment" style="display: none;"><div class="container-liquid pull-left"><span class="timestamp"><span class="glyphicon glyphicon-time"></span> 1s</span><div id="comment-<%=@comment.id%>"><p><%= @comment.content %> </p></div></div><%= image_tag @comment.user.avatar(:thumb), :class => "img-circle pull-right" %><span class="comment_user pull-right"><%= @comment.user.name %></span><div class="clearfix"></div></div>').appendTo($("#post-<%= @comment.post.id %>").find('.comments')).show();//slideDown('fast');
+
+	if($("#post-<%= @comment.post.id %>").find(".comments").height() >= 300) {
+		$("#post-<%= @comment.post.id %>").find(".comments_wrap").addClass("comments_wrap_overflow");
+	}
+<% else %>
+	$("#comment-<%= @previous.id %>").append($("<p><%= @comment.content %></p>"));
+<% end %>
+$("#post-<%= @comment.post.id %>").find("#comment_content").attr('placeholder','').val('');
+$("#post-<%= @comment.post.id %>").find(".comments").scrollTop(1000000);
+

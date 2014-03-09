@@ -1,0 +1,11 @@
+<div id="sidebar-wrapper" class="col-xs-12 col-md-1">
+            <div id="sidebar">
+                <ul class="nav list-group">
+                <% current_user.groups.each do |group| %>
+                    <li>
+                        <%= link_to group.name, group, class:"list-group-item" %>
+                    </li>
+                <% end %>
+                </ul>
+            </div>
+        </div>
