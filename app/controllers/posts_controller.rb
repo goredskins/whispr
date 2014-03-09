@@ -2,7 +2,11 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def create
-    @post = current_user.posts.build(micropost_params)
+    if signed_in?
+      @post = current_user.posts.build(micropost_params)
+    else
+      @post = User.find(1).posts.build(micropost_params)
+    end
     if @post.save
       flash[:success] = "Post created!"
       redirect_to @post.group

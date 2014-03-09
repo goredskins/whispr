@@ -1,8 +1,12 @@
 class CommentsController < ApplicationController
-  before_action :signed_in_user, only: [:create, :destroy]
+  #before_action :signed_in_user, only: [:create, :destroy]
 
   def create
-    @comment = current_user.comments.build(comment_params)
+    if signed_in?
+      @comment = current_user.comments.build(comment_params)
+    else
+      @comment = User.find(1).comments.build(comment_params)
+    end
     @previous = @comment.post.comments.last
 
     respond_to do |format|

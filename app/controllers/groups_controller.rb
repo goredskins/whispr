@@ -11,19 +11,25 @@ class GroupsController < ApplicationController
   # GET /groups/1.json
   def show
 
+    if signed_in? and current_user.following?(@group)
+      @membership = current_user.following?(@group)
+      if @membership
+        @new_posts = @group.posts.where("created_at > :update", {:update => @membership.last_view})
+        @membership.last_view = Time.now
+        @membership.save
 
-    @membership = current_user.following?(@group)
-    if @membership
-      @new_posts = @group.posts.where("created_at > :update", {:update => @membership.last_view})
-      @membership.last_view = Time.now
-      @membership.save
-
-      @new_posts.each do |post|
-        @membership.posts << post
+        @new_posts.each do |post|
+          @membership.posts << post
+        end
       end
     end
-    @post = current_user.posts.build if signed_in?
-    @comment = current_user.comments.build if signed_in?
+    if signed_in?
+      @comment = current_user.comments.build
+      @post = current_user.posts.build
+    else
+      @comment = User.find(1).comments.build # anonymous user
+      @post = User.find(1).posts.build
+    end 
   end
 
   # GET /groups/new
@@ -35,21 +41,27 @@ class GroupsController < ApplicationController
   def edit
   end
 
-  def since 
-    @membership = current_user.following?(@group)
-    @comment = current_user.comments.build if signed_in?
+  def since
+    if signed_in? 
+      @membership = current_user.following?(@group)
+      @comment = current_user.comments.build if signed_in?
 
-    @posts = @group.posts.where("posts.created_at > :update", {:update => @membership.last_view})
-    @comments = @group.comments.where("comments.updated_at > :update AND comments.user_id != :user", {:update => @membership.last_view, :user => current_user.id})
+      @posts = @group.posts.where("posts.created_at > :update", {:update => @membership.last_view})
+      @comments = @group.comments.where("comments.updated_at > :update AND comments.user_id != :user", {:update => @membership.last_view, :user => current_user.id})
 
-    unless @posts.empty? and @comments.empty?
-      @membership.last_view = Time.now
-      @membership.save
+      unless @posts.empty? and @comments.empty?
+        @membership.last_view = Time.now
+        @membership.save
+      end
+    else # Need to use other method for anonymous users
+      @posts = []
+      @comments = []
     end
 
     respond_to do |format|
       format.js
     end
+
   end
 
   def infinite
