@@ -617,3 +617,17 @@ vertical-align:middle;
   color:#000;
 
 }
+
+.list-group-item i {
+  font-size:14px;
+}
+
+#new_group_sidebar {
+  text-align: center;
+}
+
+
+#new_group_sidebar:hover a {
+  background-color:#5cb85c;
+  color: white;
+} 

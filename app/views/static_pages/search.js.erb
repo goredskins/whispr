@@ -1,6 +1,6 @@
 $("#autocomplete").empty();
 <% @groups.each do |group| %>
-//	$("#autocomplete").append("<li><%= escape_javascript link_to group.name, group %></li>");
+	$("#autocomplete").append("<li><%= escape_javascript link_to group.name, group %></li>");
 <% end %>
 <% @users.each do |user| %>
 	$("#autocomplete").append("<li><%= escape_javascript image_tag user.avatar(:thumb) %><%= escape_javascript link_to user.name, user %></li>");

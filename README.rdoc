@@ -1,4 +1,6 @@
-== README
+= README
+
+== INSTALLATION
 
 How to get Whispr running:
 
@@ -15,3 +17,31 @@ How to get Whispr running:
 * run <tt>rails s -p80</tt> to run the server
 
 And you should be good to go.
+
+== RAILS 101
+
+Brief explanation of how Rails works:
+
+* requests get routed to config/routes.rb
+
+* routes.db calls the appropriate controller, passing along the action that should be taken (create, delete, show, etc) as well as any URL parameters
+
+* the controller does whatever it needs to do with the request (create a new entry in the database, update an old one, etc), and creates variables that can be accessed in the view
+
+* the controller responds with the appropriate view 
+
+Example:
+
+* User clicks on a link to "http://www.whispr.com/groups/3" in their browser
+
+* The request "/groups/3" gets sent to routes.rb, where it matches the pattern <tt>/groups/:id</tt> (created by the helper function <tt>resources :groups</tt>)
+
+* Rails calls controllers/groups_controller.rb, passing along the action to take (show) and the parameters <tt>{"id" => 3}</tt>
+
+* The controller first calls <tt>set group</tt>, because of the line <tt>before_action :set_group, only: [:show, :edit, :update, :destroy, :since, :infinite]
+</tt>. This greates a Group object called <tt>@group</tt> with all the information passed to the controller in the URL parameters
+
+* The controller now calls <tt>show</tt>, which creates the Ruby objects that represent all the posts and comments that are to be displayed in the view
+
+* The controller then calls /views/show.html.erb, which generates the HTML to respond with.  This file is mostly HTML, but contains embedded Ruby code that is processed by the server before the response is sent. <tt><% code here %></tt> executes Ruby code, and <tt><%= code here%></tt> executes code and inserts the return value into the HTML.
+

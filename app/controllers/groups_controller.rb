@@ -10,7 +10,6 @@ class GroupsController < ApplicationController
   # GET /groups/1
   # GET /groups/1.json
   def show
-
     if signed_in? and current_user.following?(@group)
       @membership = current_user.following?(@group)
       if @membership
@@ -82,7 +81,13 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        if signed_in?
+          current_user.follow!(@group)
+        end
+
+        format.html {
+          flash[:success] = "Group was successfully created!"       
+          redirect_to @group }
         format.json { render action: 'show', status: :created, location: @group }
       else
         format.html { render action: 'new' }

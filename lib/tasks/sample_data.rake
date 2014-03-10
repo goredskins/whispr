@@ -17,7 +17,7 @@ def make_users
 
   matt = User.create!(name: "matt",
                        email:    "mattferrell2@gmail.com",
-                       password: "passowrd",
+                       password: "password",
                        feed_last_view: Time.now,
                        password_confirmation: "password")
 
