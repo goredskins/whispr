@@ -38,8 +38,7 @@ Example:
 
 * Rails calls controllers/groups_controller.rb, passing along the action to take (show) and the parameters <tt>{"id" => 3}</tt>
 
-* The controller first calls <tt>set group</tt>, because of the line <tt>before_action :set_group, only: [:show, :edit, :update, :destroy, :since, :infinite]
-</tt>. This greates a Group object called <tt>@group</tt> with all the information passed to the controller in the URL parameters
+* The controller first calls <tt>set group</tt>, because of the line <tt>before_action :set_group, only: [:show, :edit, :update, :destroy, :since, :infinite]</tt>. This greates a Group object called <tt>@group</tt> with all the information passed to the controller in the URL parameters
 
 * The controller now calls <tt>show</tt>, which creates the Ruby objects that represent all the posts and comments that are to be displayed in the view
 
