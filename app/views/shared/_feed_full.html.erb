@@ -1,0 +1,17 @@
+  <div class="container">
+    <div id="contentcol1" class="col-md-4 col-sm-4">
+      <% (0).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+    <div id="contentcol2" class="col-md-4 col-sm-4">
+    <% (1).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+    <div id="contentcol3" class="col-md-4 col-sm-4">
+    <% (2).step(@posts.size - 1, 2).map { |i| @posts[i] }.each do |post| %>
+          <%= render post %> 
+      <% end %>
+    </div>
+</div>

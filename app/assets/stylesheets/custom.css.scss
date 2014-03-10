@@ -380,7 +380,7 @@ body {
 }
 #sidebar-wrapper {
     height: 100%;
-    padding: 50px 0 0px 0;
+    padding: 30px 0 0px 0;
     position: fixed;
     border-right: 1px solid gray;
 }
@@ -631,3 +631,28 @@ vertical-align:middle;
   background-color:#5cb85c;
   color: white;
 } 
+
+.landing {
+  margin: 0 auto;
+  width: 100%;
+  min-height:100%;
+  background-color:#110022;
+  color:#eee;
+  overflow:hidden;
+}
+
+.container-full a {
+  color:#efefef;
+  text-decoration:none;
+}
+
+.v-center {
+  margin-top:7%;
+}
+
+.signin {
+margin-top:100px;
+  width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
