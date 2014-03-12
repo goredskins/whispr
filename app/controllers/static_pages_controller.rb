@@ -10,14 +10,14 @@ class StaticPagesController < ApplicationController
   end
 
   def since
-	@user = current_user
-	
+  	@user = current_user
+
     @comment = @user.comments.build if signed_in?
 
     @posts = @user.feed_items.where("posts.created_at > :update", {:update => @user.feed_last_view})
     @comments = []
     @user.groups.each do |group|
-    	group.comments.where("comments.created_at > :update AND comments.user_id != :user", {:update => @user.feed_last_view, :user => @user.id}).each do |comment|
+    	group.comments.where("comments.updated_at > :update AND comments.user_id != :user", {:update => @user.feed_last_view, :user => @user.id}).each do |comment|
     		@comments.append(comment)
     	end
     end
@@ -25,7 +25,7 @@ class StaticPagesController < ApplicationController
     unless @posts.empty? and @comments.empty?
     	@clone = User.find(@user.id)
     	@clone.feed_last_view = Time.now
-		@clone.save
+		  @clone.save
     end
 
     respond_to do |format|

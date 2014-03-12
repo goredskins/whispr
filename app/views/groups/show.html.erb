@@ -16,13 +16,14 @@
 <script>
 
 var count = 8
+var last_update = Date.now()/1000-10000;
 
 function updates() {
   $.ajax({
           type: "POST",
           beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
           url: "/groups/<%= @group.id %>/since",
-          data: { "group": {} },
+          data: { "group": {}, "ts": last_update },
       success: function(data) {      
         return false;
       },
@@ -40,7 +41,7 @@ function infinite() {
                 type: "POST",
                 beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
                 url: "/groups/<%= @group.id %>/infinite",
-                data: { "group": {"start":""+count} }, 
+                data: { "group" : {start:""+count}}, 
                 success: function(data) {    
                   count += 8  
                   return false;
@@ -71,7 +72,7 @@ $(document).ready(function() {
         };
     });
 
-
+    last_update = Date.now()/1000;
     setInterval("updates()", 1000); 
 
     $(".confirmSocial").click(function() {

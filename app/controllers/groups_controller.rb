@@ -41,21 +41,27 @@ class GroupsController < ApplicationController
   end
 
   def since
-    if signed_in? 
-      @membership = current_user.following?(@group)
-      @comment = current_user.comments.build if signed_in?
+    if signed_in? and @current_user.following?(@group) #unnecessary, but will allow for read receipts later
+        @membership = current_user.following?(@group)
+        @posts = @group.posts.where("posts.created_at > :update", {:update => @membership.last_view})
+        @comments = @group.comments.where("comments.updated_at > :update AND comments.user_id != :user", {:update => @membership.last_view, :user => current_user.id})
 
-      @posts = @group.posts.where("posts.created_at > :update", {:update => @membership.last_view})
-      @comments = @group.comments.where("comments.updated_at > :update AND comments.user_id != :user", {:update => @membership.last_view, :user => current_user.id})
-
-      unless @posts.empty? and @comments.empty?
-        @membership.last_view = Time.now
-        @membership.save
-      end
+        unless @posts.empty? and @comments.empty?
+          @membership.last_view = Time.now
+          @membership.save
+        end
     else # Need to use other method for anonymous users
-      @posts = []
-      @comments = []
+      @posts = @group.posts.where("posts.created_at > :timestamp", {:timestamp => DateTime.strptime(params[:ts], "%s")})
+      @comments = @group.comments.where("comments.updated_at > :timestamp", {:timestamp => DateTime.strptime(params[:ts], "%s")})
     end
+
+    if signed_in?
+      @comment = current_user.comments.build
+    else
+      @comment = User.find(1).comments.build
+    end
+
+    @last_update = Time.now.to_i
 
     respond_to do |format|
       format.js
@@ -63,6 +69,7 @@ class GroupsController < ApplicationController
 
   end
 
+  
   def infinite
     @comment = current_user.comments.build if signed_in?
     @start = group_params[:start].to_i
@@ -71,7 +78,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.js
     end
-
   end
 
   # POST /groups
@@ -128,6 +134,6 @@ class GroupsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :start)
+      params.require(:group).permit(:name, :start, :description)
     end
 end
