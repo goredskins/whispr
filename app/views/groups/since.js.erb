@@ -1,4 +1,5 @@
 <% @comments.each do |comment| %>
+	<% if comment.sticker_id == nil %>
 	if($("#comment-<%=comment.id%>").length > 0) {
 		$("#comment-<%=comment.id%>").empty()
 		$("#comment-<%=comment.id%>").append("<p><%=comment.content%></p>");
@@ -9,6 +10,11 @@
 	} else {
 	$('<hr/><div class="comment" style="display:none;"><div><%= image_tag comment.user.avatar(:thumb), :class => "img-circle pull-left" %></div><div><span class="comment_user"><%= comment.user.name %></span><span class="timestamp pull-right"><span class="glyphicon glyphicon-time"></span>1s</span><div id="comment-<%=comment.id%>"><p><%= comment.content %> </p></div><div class="clearfix"></div></div></div>').appendTo($("#post-<%= comment.post.id %>").find('.comments')).show();//.slideDown('fast');
 	}
+
+	<% else %>
+	$('<hr/><div class="comment" style="display:none;"><div><%= image_tag comment.user.avatar(:thumb), :class => "img-circle pull-left" %></div><div><span class="comment_user"><%= comment.user.name %></span><span class="timestamp pull-right"><span class="glyphicon glyphicon-time"></span>1s</span><div id="comment-<%=comment.id%>"><%= image_tag "stickers/pricklypear" + comment.sticker_id.to_s + ".png" %></div><div class="clearfix"></div></div></div>').appendTo($("#post-<%= comment.post.id %>").find('.comments')).show();//.slideDown('fast');
+	<% end %>
+
 	if($("#post-<%= comment.post.id %>").find(".comments").height() >= 300) {
 		$("#post-<%= comment.post.id %>").find(".comments_wrap").addClass("comments_wrap_overflow");
 	}

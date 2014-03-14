@@ -1,5 +1,8 @@
 class Post < ActiveRecord::Base
 	has_many :seen_post_trackers
+
+	has_attached_file :image, :styles => { :normal => "350x" }, :default_url => "/images/:style/missing.jpg"
+
 	
 	has_many :comments
 	belongs_to :user

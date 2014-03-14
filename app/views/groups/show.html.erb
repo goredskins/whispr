@@ -77,12 +77,22 @@ $(document).ready(function() {
 
     $(".confirmSocial").click(function() {
       $($(this).data('target')).modal('hide');
-      var media = $($(this).data('target')).find('.socialPreview').html();
+      var media = $($(this).data('target')).find('input').val();//$($(this).data('target')).find('.socialPreview').html();
       if(media != "") {
         $("#post_media").val(media);
-        $("#post_media_type").val("5")
+        $("#post_media_type").val($(this).parents(".modal").index());
       }
+      if($("#post_image").val() != "") {
+        $("#post_media_type").val(3);
+        $("#uploadsuccess").show();
+      }
+
+
     });
+
+
+      $(".comments").scrollTop(1000000);
+
 
     $("#twitterButton").click(function() {$("#twitterModal").modal();return false;});
     $("#instagramButton").click(function() {$("#instagramModal").modal();return false;});

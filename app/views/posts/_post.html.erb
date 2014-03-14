@@ -1,15 +1,31 @@
-<div id="post-<%= post.id %>" class="panel panel-default">
+<div id="post-<%= post.id %>" class="panel panel-default post">
 
 	<div class="panel-heading">
-		<%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' }, :class => "pull-right" %>
-		<h4><%= post.user.name %></h4></div>
+		<%= link_to 'x', post, method: :delete, data: { confirm: 'Are you sure you want to delete this post?' }, :class => "delete pull-right" if signed_in? and post.user == current_user %>
+		<h4>		<%= image_tag post.user.avatar(:thumb), :class => "img-circle pull-left" %>
+<%= post.user.name %></h4></div>
 	<div class="panel-body">
 	<div class="media center">
-		<% if post.media_type != nil and post.media_type > 0 %>
-			<%= raw post.media %>
+		<% if post.media_type == 0 #twitter %> 
+			<blockquote class="twitter-tweet" lang="en"><a href="<%=post.media%>">March 10, 2014</a></blockquote>
+
+		<% elsif post.media_type == 1 #instagram %>
+			<% if /(instagram\.com\/p\/\w{10})/.match(post.media) %>
+				<iframe src="//<%=/(instagram\.com\/p\/\w{10})/.match(post.media)[0]%>/embed/" width="490" height="568" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+			<% end %>
+		<% elsif post.media_type == 2 #facebook %>
+			<% if /(<div id.+<\/div><\/div>)/.match(post.media) %>
+				<%= raw post.media %>
+			<% end %>
+		<% elsif post.media_type == 3 #image upload %>
+			<%= image_tag post.image(:normal) %>
+		<% elsif post.media_type == -1 %>
+
 		<% end %>
 	</div>
+	<hr/>
 	<div class="container"><h4><%= post.content %></h4></div>
+	<hr/>
 	<% if post.comments.count > 3 %>
 		<div class="comments_wrap-scroll comments_wrap_overflow">
 	<% else %>
@@ -24,10 +40,15 @@
 				<span class="timestamp">
     				<span class="glyphicon glyphicon-time"></span> <%= time_ago_in_words(comment.created_at, :locale => "en") %>
   				</span>
+
   				<div id="comment-<%= comment.id %>">
-					<p><%= comment.content %> </p>
-					<% comment.secondary_content.each do |content| %>
-						<p><%= content %> </p>
+  				  	<% if comment.sticker_id == nil %>
+						<p><%= comment.content %> </p>
+						<% comment.secondary_content.each do |content| %>
+							<p><%= content %> </p>
+						<% end %>
+					<% else %>
+						<%= image_tag 'stickers/pricklypear' + comment.sticker_id.to_s + '.png' %>
 					<% end %>
 				</div>
 			</div>
@@ -51,10 +72,14 @@
     			<span class="glyphicon glyphicon-time"></span> <%= time_ago_in_words(comment.created_at, :locale => "en") %>
   			</span>
   			<div id="comment-<%= comment.id %>">
-				<p><%= comment.content %> </p>
-				<% comment.secondary_content.each do |content| %>
-					<p><%= content %> </p>
-				<% end %>
+				<% if comment.sticker_id == nil %>
+						<p><%= comment.content %> </p>
+						<% comment.secondary_content.each do |content| %>
+							<p><%= content %> </p>
+						<% end %>
+					<% else %>
+						<%= image_tag 'stickers/pricklypear' + comment.sticker_id.to_s + '.png' %>
+					<% end %>
 			</div>
 			<div class="clearfix"></div>
 			</div>

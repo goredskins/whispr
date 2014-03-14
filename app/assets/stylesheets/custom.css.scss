@@ -28,6 +28,10 @@ body {
   padding-top: 60px;
 }
 
+dark {
+    background-color:#111518;
+}
+
 section {
   overflow: auto;
 }
@@ -419,9 +423,9 @@ body {
   }
 }
 
-.panel .img-circle {
-  width:50px;
-  height:50px;
+.comments .img-circle {
+  width:40px;
+  height:40px;
   margin-right:10px;
 }
 
@@ -655,4 +659,46 @@ vertical-align:middle;
   width:600px;
   margin-left:auto;
   margin-right:auto;
+}
+
+.delete {
+  visibility: hidden;
+  font-size:16px;
+}
+.post:hover .delete {
+  visibility: visible;
+}
+
+.group_invite_well {
+  min-height: 20px;
+padding: 24px;
+margin-bottom: 20px;
+background-color: whitesmoke;
+border: 1px solid #e3e3e3;
+border-radius: 6px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05); 
+}
+
+h4 img{
+  width:35px;
+  height:35px;
+  margin-right:15px;
+  margin-top:-6px;
+}
+
+#main-wrapper {
+  padding-right:30px;
+}
+
+
+.popover img {
+  width:30px;
+  height:36px;
+  padding:3px;
+}
+
+.popover img:hover {
+  background-color:rgba(30,144,255, 0.7);
+  border-radius:2px;
 }

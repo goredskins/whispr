@@ -38,6 +38,6 @@ class PostsController < ApplicationController
       @post = Post.find(params[:id])
     end
     def micropost_params
-      params.require(:post).permit(:content, :group_id, :media, :media_type)
+      params.require(:post).permit(:content, :group_id, :media, :media_type, :image)
     end
 end

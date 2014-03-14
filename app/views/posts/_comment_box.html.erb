@@ -10,6 +10,7 @@
         <tbody>
           <tr>
             <td><%= f.text_field :content, :autocomplete => "off", placeholder: "Enter your comment here..." %></td>
+            <td><button class="btn btn-default pull-right stickerShow" style="font-size:20px;line-height:16px;" type="button" data-container="body" data-postid="<%=post.id%>" data-toggle="popover" data-placement="top" >☺</button></td>
             <td><%= content_tag :button, :type => :submit, :class => "btn btn-success pull-right" do %>
         Post
       <% end %></td>
@@ -22,3 +23,40 @@
     <%= f.hidden_field :post_id, :value => post.id %>
   <% end %>
 </div>
+
+<script>
+
+function lolol(e, p) {
+  $.ajax({
+          type: "POST",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          url: "/comments",
+          data: { "comment": { "post_id": e, "sticker_id": p, "content": "1"} },
+      success: function(data) {      
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+    });
+}
+
+
+$(document).ready(function() {
+
+  $(".stickerShow").popover({
+  html: true,
+  trigger: 'click',
+  content: function () {   
+    return '<img class="sticker" onclick="lolol(' + $(this).data('postid') + ', 1)" src="/images/stickers/pricklypear1.png">' + 
+           '<img class="sticker" onclick="lolol(' + $(this).data('postid') + ', 2)" src="/images/stickers/pricklypear2.png">' + 
+           '<img class="sticker" onclick="lolol(' + $(this).data('postid') + ', 3)" src="/images/stickers/pricklypear3.png">' +
+           '<img class="sticker" onclick="lolol(' + $(this).data('postid') + ', 4)" src="/images/stickers/pricklypear4.png">';
+  }
+  });
+
+
+});
+</script>
+
+

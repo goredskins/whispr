@@ -23,6 +23,21 @@ function test() {
     });
 }
 
+function updates() {
+  $.ajax({
+          type: "POST",
+          beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+          url: "/since",
+          data: { "ts": last_update },
+      success: function(data) {      
+        return false;
+      },
+      error: function(data) {
+        return false;
+      }
+    });
+}
+
 $(document).ready(function() {
 
 	$("#DOSTUFF").click(function() {
@@ -50,8 +65,8 @@ $(document).ready(function() {
        
         <div class="col-lg-12 text-center v-center landing">
           
-          <h1>Hello Landing</h1>
-          <p class="lead">A sign-up page example for Bootstrap 3</p>
+          <h1>Whispr</h1>
+          <p class="lead">Filler text for the Whispr home page.</p>
           
           <br>
           
